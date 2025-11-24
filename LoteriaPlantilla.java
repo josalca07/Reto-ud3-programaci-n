@@ -4,16 +4,28 @@ package ud3.reto;
 import java.util.Scanner;
 
 
-//Excepción propia
+//Excepción propia 
 class GordoException extends Exception {
-	//COMPLETAR
+	//COMPLETAR DFR
+	public GordoException (String mensaje) {
+		super(mensaje);
+	}
+	
 }
 
 public class LoteriaPlantilla {	
 	
-	//devuelve un array de tamaño numBolas con todos los números del sorteo
+	//devuelve un array de tamaño numBolas con todos los números del sorteo 
 	public static int[] creaBomboNumeros(int numBolas) {
-		//COMPLETAR
+		//COMPLETAR JSC
+		int[] bomboNumeros = new int[numBolas];
+		
+		for(int i=0;i<numBolas;i++){
+			bomboNumeros[i] = i;
+		}
+		
+		System.out.println("Bombo de números creado...");
+		return bomboNumeros;
 	}
 	
 	//devuelve un array de tamaño numPremios con todos los premios del sorteo
@@ -23,15 +35,21 @@ public class LoteriaPlantilla {
 		bomboPremios[0]="PRIMER PREMIO";  // gordo de navidad
 		bomboPremios[1]="SEGUNDO PREMIO";	// un segundo premio
 		
-		//COMPLETAR
+		//COMPLETAR DFR 
 		
 		// un tercer premio
+		bomboPremios[2]="TERCER PREMIO";
 		// dos cuartos premios
-
+		bomboPremios[3]="CUARTO PREMIO";
+		bomboPremios[4]="CUARTO PREMIO";
 		// 8 quintos premios
-
+		for(int i=5;i<13;i++){
+			bomboPremios[i]="QUINTO PREMIO";
+		}
 		// el resto hasta completar 1.807 premios son "pedrea"
-		
+		for(int i=13;i<numPremios;i++){
+			bomboPremios[i]="pedrea";
+			}
 		System.out.println("Bombo de premios creado...");
 		return bomboPremios;
 	}
@@ -44,27 +62,35 @@ public class LoteriaPlantilla {
 
 		// si el número ya había salido, generamos otro al azar
 
-		//COMPLETAR
+		while(bombo[numAgraciado] == -1){
+			numAgraciado = (int)(Math.random()*bombo.length);
+		}
+		
+		//COMPLETAR JSC
 		
 		// marcamos el número que ha salido con -1 para que no vuelva a salir
-		bombo[numAgraciado]=-1;
+		int numero = bombo[numAgraciado];
+		bombo[numAgraciado] = -1;
 		
-		//COMPLETAR
+		return numero;
+		//COMPLETAR JSC
 	}
 	
 	//devuelve un premio al azar del bombo de premios
-	//Si un premio ya ha salido, no debe volver a salir
+	//Si un premio ya ha salido, no debe volver a salir 
 	public static String damePremio(String[] bombo) {
-		
+		//COMPLETAR JSC
 		String premio;
 		
 		int indicePremiado = (int) (Math.random()*bombo.length);
 
-		// si el premio ya había salido, generamos otro al azar
-		//COMPLETAR
+		while(bombo[indicePremiado] == null){
+			indicePremiado = (int) (Math.random()*bombo.length);
+		}
+
+		premio = bombo[indicePremiado];
 		
-		// marcamos el premio que ha salido 
-		//COMPLETAR
+		bombo[indicePremiado] = null;
  				
 		return premio;
 	}
@@ -75,8 +101,15 @@ public class LoteriaPlantilla {
 	public static String heSidoAgraciado(String[] numerosSorteo, String[] premiosSorteo, String miDecimo){
 		String premio="Número no premiado"; //valor por defecto
 			
-		//COMPLETAR
-
+		//COMPLETAR DFR
+		int i = 0;
+		while (i < numerosSorteo.length) {
+			if (miDecimo.equals(premiosSorteo[i])) {
+				premio = premiosSorteo[i];
+			}
+			i++;
+		}
+		return premio;
 	}
 	
 	
@@ -93,6 +126,8 @@ public class LoteriaPlantilla {
 		System.out.println("\nCOMPROBACION DE DECIMOS:");
 		
 		//Compruebo si me ha tocado la lotería
+		while(!terminarDeComprobar){
+		}
 		//COMPLETAR
 		
 	}
@@ -147,6 +182,10 @@ public class LoteriaPlantilla {
 			
 		} 	//COMPLETAR (capturar excepción propia)
 		
+		//COMPLETAR DFR
+		catch (GordoException e) {
+			System.out.println("¡¡A celebrar, te ha tocado el gordo!!");
+		}
 		catch (Exception e) {
 				System.out.println("Error:"+e.getMessage());
 				} finally {
