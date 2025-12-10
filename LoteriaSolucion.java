@@ -1,16 +1,14 @@
 package ud3.ejemplos;
 import java.util.Scanner;
 
-//Excepción propia
 class ElGordoException extends Exception {
 public ElGordoException(String mensaje) {
    super(mensaje); 
 	}
 }
 
-public class LoteriaSolucion {	
+public class LoteriaSolucion{	
 	
-	//devuelve un array de tamaño numBolas con todos los números del sorteo
 	public static int[] creaBomboNumeros(int numBolas) {
 		int[] bomboNumeros = new int[numBolas];
 		
@@ -21,21 +19,18 @@ public class LoteriaSolucion {
 		return bomboNumeros;
 	}
 	
-	//devuelve un array de tamaño numPremios con todos los premios del sorteo
 	public static String[] creaBomboPremios(int numPremios) {
 		String[] bomboPremios = new String[numPremios];
 		
-		bomboPremios[0]="PRIMER PREMIO";  // gordo de navidad
-		bomboPremios[1]="SEGUNDO PREMIO";	// un segundo premio
-		bomboPremios[2]="TERCER PREMIO";	// un tercer premio
-		bomboPremios[3]="CUARTO PREMIO"; 	// dos cuartos premios
+		bomboPremios[0]="PRIMER PREMIO";
+		bomboPremios[1]="SEGUNDO PREMIO";
+		bomboPremios[2]="TERCER PREMIO";
+		bomboPremios[3]="CUARTO PREMIO";
 		bomboPremios[4]="CUARTO PREMIO";
 		
-		// 8 quintos premios
 		for (int i=5;i<=12;i++)
 			bomboPremios[i]="QUINTO PREMIO";
 		
-		// el resto hasta completar 1.807 premios son "pedrea"
 		for (int i=13;i<numPremios;i++)
 			bomboPremios[i]="pedrea";
 		
@@ -43,36 +38,29 @@ public class LoteriaSolucion {
 		return bomboPremios;
 	}
 	
-	//devuelve un numero al azar del bombo de números, que será objeto de un premio.
-	//Si un número ya ha salido, no debe volver a salir
 	public static int dameNumero(int[] bombo) {
 		
 		int numAgraciado = (int) (Math.random()*bombo.length);
 
-		// si el número ya había salido, generamos otro al azar
 		while (bombo[numAgraciado]==-1)
 			numAgraciado = (int) (Math.random()*bombo.length);
 		
-		// marcamos el número que ha salido con -1 para que no vuelva a salir
 		bombo[numAgraciado]=-1;
 		
 		return numAgraciado;
 	}
 	
-	//devuelve un premio al azar del bombo de premios
 	public static String damePremio(String[] bombo) {
 		
 		String premio;
 		
 		int indicePremiado = (int) (Math.random()*bombo.length);
 
-		// si el premio ya había salido, generamos otro al azar
 		while (bombo[indicePremiado]=="")
 			indicePremiado = (int) (Math.random()*bombo.length);
 		
 		premio=bombo[indicePremiado];
 		
-		// marcamos el premio que ha salido con una cadena vacía
 		bombo[indicePremiado]="";
  				
 		return premio;
@@ -90,10 +78,30 @@ public class LoteriaSolucion {
 				String premioAsignado = premiosSorteo[i];
 
 				if (numeroPremiadoStr.equals(miDecimo)) { 
-					premio=("Agraciado con: "+premioAsignado);
-					return premio; 
+					
+					if (premioAsignado.equals("PRIMER PREMIO"))
+						premio = "Agraciado con: PRIMER PREMIO 400.000 € el décimo";
+					
+					else if (premioAsignado.equals("SEGUNDO PREMIO"))
+						premio = "Agraciado con: SEGUNDO PREMIO 125.000 € el décimo";
+					
+					else if (premioAsignado.equals("TERCER PREMIO"))
+						premio = "Agraciado con: TERCER PREMIO 50.000 € el décimo";
+					
+					else if (premioAsignado.equals("CUARTO PREMIO"))
+						premio = "Agraciado con: CUARTO PREMIO 20.000 € el décimo";
+					
+					else if (premioAsignado.equals("QUINTO PREMIO"))
+						premio = "Agraciado con: QUINTO PREMIO 6.000 € el décimo";
+
+					else if (premioAsignado.equals("pedrea"))
+						premio = "Agraciado con: PEDREA 100 € el décimo";
+					
+					else
+						premio = "Agraciado con: " + premioAsignado;
+
+					return premio;
 				}
-				
 				
 				int numeroPremiado = Integer.parseInt(numeroPremiadoStr);
 				
@@ -102,15 +110,16 @@ public class LoteriaSolucion {
 				
 				if (esAnterior || esPosterior) {
 					
-					if (premioAsignado.equals("PRIMER PREMIO")) {
+					if (premioAsignado.equals("PRIMER PREMIO"))
 						premio = "Agraciado con aproximación al primero premio 2.000 € el décimo";
-						return premio;
-					}
 					
-					if (premioAsignado.equals("SEGUNDO PREMIO")) {
+					else if (premioAsignado.equals("SEGUNDO PREMIO"))
 						premio = "Agraciado con aproximación al segundo premio 1.250 € el décimo";
-						return premio; 
-					}
+
+					else if (premioAsignado.equals("TERCER PREMIO"))
+						premio = "Agraciado con aproximación al tercer premio 960 € el décimo";
+
+					return premio;
 				}
 			}
 		} catch (NumberFormatException e) {
@@ -118,10 +127,9 @@ public class LoteriaSolucion {
 			return "Número no premiado (Error de formato)";
 		}
 			
-		return (premio);
+		return premio;
 	}
 	
-	//Implementa un bucle para comprobar, haciendo uso del método heSidoAgraciado, si nuestro décimo tiene o no premio
 	public static void compruebaDecimos(String[] numerosSorteo, String[] premiosSorteo) throws ElGordoException{
 		Scanner sc=new Scanner(System.in);	
 		String miDecimo;
@@ -131,7 +139,6 @@ public class LoteriaSolucion {
 		
 		System.out.println("\nCOMPROBACION DE DECIMOS:");
 		
-		//Compruebo si me ha tocado la lotería
 		do {
 			do {
 				System.out.println("\nIntroduzca los 5 dígitos de su décimo (fin para terminar)");
@@ -146,7 +153,7 @@ public class LoteriaSolucion {
 				if (!numeroValido)
 					System.out.println("Formato incorrecto.");
 				
-			} while ( !terminarDeComprobar && !numeroValido); //Valido la entrada y si quiero continuar
+			} while ( !terminarDeComprobar && !numeroValido);
 		
 			if(!terminarDeComprobar)
 				miPremio=heSidoAgraciado(numerosSorteo,premiosSorteo, miDecimo);
@@ -162,38 +169,33 @@ public class LoteriaSolucion {
 
 	public static void main(String[] args) {
 		
-		final int MAX_NUMEROS=100000; // números del sorteo
-		final int MAX_PREMIOS=1807;   // premios del sorteo
+		final int MAX_NUMEROS=100000;
+		final int MAX_PREMIOS=1807;
 		
-		int numeroAgraciado; //número que sale del bombo
-		String premio=""; //premio que sale del bombo
+		int numeroAgraciado;
+		String premio="";
 		
 				
 		int[] bomboBolas = new int[MAX_NUMEROS];
 		String[] bomboPremios = new String[MAX_PREMIOS];
 
-		String[] listaNumerosSorteo = new String[MAX_PREMIOS]; // [i][0]: número agraciado  [i][1]: premio
+		String[] listaNumerosSorteo = new String[MAX_PREMIOS];
 		String[] listaPremiosSorteo = new String[MAX_PREMIOS];
 		
 		try {
 		
-			//Creamos los bombos con sus bolas
 			bomboBolas=creaBomboNumeros(MAX_NUMEROS);		
 			bomboPremios=creaBomboPremios(MAX_PREMIOS);
 			
-			//Mostramos el listado completo de números premiados
 			System.out.println("\nLISTADO OFICIAL DE PREMIOS:\n");
 		
 			int j=0;
 			for (int i=0;i<MAX_PREMIOS;i++) {
-				//Sacamos un número del bombo y lo rellenamos con ceros a la izquierda
 				numeroAgraciado=dameNumero(bomboBolas);
 				String numeroFormateado=String.format("%05d",numeroAgraciado);
 			
-				//Sacamos un premio del bombo
 				premio=damePremio(bomboPremios);
 				
-				//Añado el número y su premio a la lista oficial del sorteo
 				listaNumerosSorteo[j]=numeroFormateado;
 				listaPremiosSorteo[j]=premio;
 				j++;
